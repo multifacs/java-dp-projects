@@ -1,0 +1,56 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package hairdresser;
+option java_multiple_files = true;
+option java_package = "hairshop";
+option java_outer_classname = "HairShopProto";
+
+message NewService {
+  string name = 1;
+  int32 dur = 2;
+  int32 cost = 3;
+}
+
+message IdData {
+  int32 id = 1;
+}
+
+message StatusData {
+  string status = 1;
+}
+
+message AllServices {
+  int32 id = 1;
+  string name = 2;
+  int32 dur = 3;
+  int32 cost = 4;
+}
+
+message GetTime {
+  int32 day = 1;
+}
+
+message TimeData {
+  string time = 1;
+}
+
+message AppointmentData {
+  int32 day = 1;
+  int32 time = 2;
+  int32 id = 3;
+}
+
+message AppointmentStatus {
+  string status = 1;
+  int32 cost = 2;
+  int32 id = 3;
+}
+
+service HairShop {
+  rpc newService(NewService) returns (IdData);
+  rpc deleteService(IdData) returns (StatusData);
+  rpc getServices(google.protobuf.Empty) returns (stream AllServices);
+  rpc getTime(GetTime) returns (TimeData);
+  rpc newAppointment(AppointmentData) returns (AppointmentStatus);
+  rpc cancelAppointment(IdData) returns (google.protobuf.Empty);
+}
