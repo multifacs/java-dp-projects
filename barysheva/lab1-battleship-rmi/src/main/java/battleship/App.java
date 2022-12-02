@@ -1,4 +1,4 @@
-package org.example;
+package battleship;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
@@ -9,17 +9,15 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class App 
 {
-    public static final String UNIQUE_BINDING_NAME = "server.battleship";
-
     public static void main(String[] args) throws RemoteException, AlreadyBoundException, InterruptedException {
+        String name = "battleship";
+        int port = 9999;
 
-        final RemoteBoardServer server = new RemoteBoardServer();
-
-        final Registry registry = LocateRegistry.createRegistry(2732);
+        RemoteBoardServer server = new RemoteBoardServer();
+        Registry registry = LocateRegistry.createRegistry(port);
 
         Remote stub = UnicastRemoteObject.exportObject(server, 0);
-        registry.bind(UNIQUE_BINDING_NAME, stub);
-
-        Thread.sleep(Integer.MAX_VALUE);
+        registry.bind(name, stub);
+        Thread.sleep(999999999);
     }
 }
