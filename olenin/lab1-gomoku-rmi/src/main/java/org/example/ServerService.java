@@ -41,7 +41,7 @@ public class ServerService implements GameInterface {
             int oNum = 0;
             int j, col;
             for (j = i, col = 0; j < this.size && col < this.size; j++, col++) {
-                if (board.get(j * this.size + col) == 'x') {
+                if (board.get(j * this.size + col) == 1) {
                     xNum++;
                     if (xNum >= 5) {
                         turn = 3;
@@ -50,7 +50,7 @@ public class ServerService implements GameInterface {
                 } else {
                     xNum = 0;
                 }
-                if (board.get(j * this.size + col) == 'o') {
+                if (board.get(j * this.size + col) == 2) {
                     oNum++;
                     if (oNum >= 5) {
                         turn = 4;
@@ -67,7 +67,7 @@ public class ServerService implements GameInterface {
             int oNum = 0;
             int j, col;
             for (j = 0, col = i; j < this.size && col < this.size; j++, col++) {
-                if (board.get(j * this.size + col) == 'x') {
+                if (board.get(j * this.size + col) == 1) {
                     xNum++;
                     if (xNum >= 5) {
                         turn = 3;
@@ -76,7 +76,7 @@ public class ServerService implements GameInterface {
                 } else {
                     xNum = 0;
                 }
-                if (board.get(j * this.size + col) == 'o') {
+                if (board.get(j * this.size + col) == 2) {
                     oNum++;
                     if (oNum >= 5) {
                         turn = 4;
@@ -94,7 +94,7 @@ public class ServerService implements GameInterface {
             int xNum = 0;
             int oNum = 0;
             for (int j = 0; j < this.size; j++) {
-                if (board.get(i * this.size + j) == 'x') {
+                if (board.get(i * this.size + j) == 1) {
                     xNum++;
                     if (xNum >= 5) {
                         turn = 3;
@@ -103,7 +103,7 @@ public class ServerService implements GameInterface {
                 } else {
                     xNum = 0;
                 }
-                if (board.get(i * this.size + j) == 'o') {
+                if (board.get(i * this.size + j) == 2) {
                     oNum++;
                     if (oNum >= 5) {
                         turn = 4;
