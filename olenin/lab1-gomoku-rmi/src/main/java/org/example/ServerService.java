@@ -121,7 +121,7 @@ public class ServerService implements GameInterface {
             int xNum = 0;
             int oNum = 0;
             for (int i = 0; i < this.size; i++) {
-                if (board.get(i * this.size + j) == 'x') {
+                if (board.get(i * this.size + j) == 1) {
                     xNum++;
                     if (xNum >= 5) {
                         turn = 3;
@@ -130,7 +130,7 @@ public class ServerService implements GameInterface {
                 } else {
                     xNum = 0;
                 }
-                if (board.get(i * this.size + j) == 'o') {
+                if (board.get(i * this.size + j) == 2) {
                     oNum++;
                     if (oNum >= 5) {
                         turn = 4;
