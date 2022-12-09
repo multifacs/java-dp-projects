@@ -58,7 +58,7 @@ public class ClientMain {
             int num[] = new int[2];
             String[] inputPoint;
 
-            while(!disconnect[0]) {
+            while(true) {
                 if (playerNum == turn) {
                     print(localBoard);
                     System.out.println("Ваш ход");
