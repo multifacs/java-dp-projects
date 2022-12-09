@@ -1,0 +1,46 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package grpc.ex1;
+option java_multiple_files = true;
+option java_package = "grpc.techservice";
+option java_outer_classname = "TechServiceProto";
+
+message ReqNewData {
+  string date = 1;
+  string description = 2;
+  string name = 3;
+  string email = 4;
+}
+
+message ReqId {
+  int32 id = 1;
+}
+
+message Status {
+  string status = 1;
+}
+
+message ReqAllData {
+  int32 id = 1;
+  string status = 2;
+  string description = 3;
+  string date = 4;
+  string name = 5;
+  string email = 6;
+}
+
+message ReqIdDesc {
+  int32 id = 1;
+  string description = 2;
+}
+
+service TechService {
+  rpc addRequest(ReqNewData) returns (ReqId);
+  rpc getStatus(ReqId) returns (Status);
+  rpc confirmRequest(ReqId) returns (google.protobuf.Empty);
+  rpc denyRequest(ReqIdDesc) returns (google.protobuf.Empty);
+
+  rpc getAll(google.protobuf.Empty) returns (stream ReqAllData);
+  rpc takeRequest(ReqId) returns (google.protobuf.Empty);
+  rpc markRequest(ReqIdDesc) returns (google.protobuf.Empty);
+}
