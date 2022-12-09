@@ -127,7 +127,16 @@ public class Client {
         for (int i = 0; i < data.size; i++) {
             StringBuilder s = new StringBuilder();
             for (int j = 0; j < data.size; j++) {
-                s.append(data.field.get(data.size * i + j)).append("  ");
+                if (data.field.get(data.size * i + j) == 0) {
+                    s.append("-");
+                }
+                if (data.field.get(data.size * i + j) == 1) {
+                    s.append("x");
+                }
+                if (data.field.get(data.size * i + j) == 2) {
+                    s.append("o");
+                }
+                s.append("  ");
             }
             System.out.println(s);
         }
