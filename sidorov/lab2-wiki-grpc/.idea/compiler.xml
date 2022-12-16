@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Me2" />
+        <module name="lab2-wiki-grpc" />
         <module name="practice5" />
         <module name="gRPC-Hello" />
         <module name="Sidorov2" />

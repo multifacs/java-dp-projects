@@ -16,7 +16,6 @@ public class WikiServer extends WikiServiceGrpc.WikiServiceImplBase {
         Server server = ServerBuilder.forPort(8080).addService(new WikiServer()).build();
         wikiData = new WikiData();
         server.start();
-        System.out.println("server started");
         server.awaitTermination();
     }
 

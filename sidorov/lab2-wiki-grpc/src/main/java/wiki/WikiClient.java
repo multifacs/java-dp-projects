@@ -24,10 +24,24 @@ public class WikiClient {
 
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         while (true) {
+            System.out.println("Команды: ");
+            System.out.println("add-record");
+            System.out.println("attach-tags");
+            System.out.println("attach-file");
+            System.out.println("get-file");
+            System.out.println("add-tag");
+            System.out.println("get-file");
+            System.out.println("remove-tag");
+            System.out.println("get-records");
+            System.out.println("get-tags");
+            System.out.println("get-by-tag");
+            System.out.println();
             String input = scanner.nextLine();
 
             if ("add-record".equals(input)) {
+                System.out.println("Введите recordTitle");
                 String recordTitle = scanner.nextLine();
+                System.out.println("Введите recordText");
                 String recordText = scanner.nextLine();
                 AddRecordRequest addRecordRequest = AddRecordRequest.newBuilder()
                         .setRecordTitle(recordTitle)
@@ -52,9 +66,12 @@ public class WikiClient {
 
                 StreamObserver<AttachTagRequest> requestObserver = asyncStub.attachTag(responseObserver);
                 try {
+                    System.out.println("Введите recordId");
+                    int recordId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Введите tags через пробел");
                     List<Integer> tags = Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).toList();
                     for (int tag : tags) {
-                        AttachTagRequest attachTagRequest = AttachTagRequest.newBuilder().setTagId(tag).build();
+                        AttachTagRequest attachTagRequest = AttachTagRequest.newBuilder().setTagId(tag).setRecordId(recordId).build();
                         requestObserver.onNext(attachTagRequest);
                     }
                 } catch (RuntimeException e) {
@@ -63,7 +80,9 @@ public class WikiClient {
                 }
                 requestObserver.onCompleted();
             } else if ("attach-file".equals(input)) {
-                int recordId = scanner.nextInt();
+                System.out.println("Введите recordId");
+                int recordId = Integer.parseInt(scanner.nextLine());
+                System.out.println("Введите fileName как путь");
                 String fileName = scanner.nextLine();
                 ByteString fileData = null;
 
@@ -86,6 +105,7 @@ public class WikiClient {
 
                 stub.attachFile(attachFileRequest);
             } else if ("add-tag".equals(input)) {
+                System.out.println("Введите tagName");
                 String tagName = scanner.nextLine();
 
                 AddTagRequest addTagRequest = AddTagRequest.newBuilder()
@@ -95,7 +115,9 @@ public class WikiClient {
                 AddTagResponse addTagResponse = stub.addTag(addTagRequest);
                 System.out.println("addTagResponse.getTagId() = " + addTagResponse.getTagId());
             } else if ("get-file".equals(input)) {
-                int recordId = scanner.nextInt();
+                System.out.println("Введите recordId");
+                int recordId = Integer.parseInt(scanner.nextLine());
+                System.out.println("Введите fileName как путь");
                 String fileName = scanner.nextLine();
 
                 GetFileRequest getFileRequest = GetFileRequest.newBuilder()
@@ -120,7 +142,8 @@ public class WikiClient {
                 }
 
             } else if ("remove-tag".equals(input)) {
-                int tagId = scanner.nextInt();
+                System.out.println("Введите tagId");
+                int tagId = Integer.parseInt(scanner.nextLine());
 
                 RemoveTagRequest removeTagRequest = RemoveTagRequest.newBuilder()
                         .setTagId(tagId)
@@ -132,10 +155,9 @@ public class WikiClient {
                     getTagResponseIterator = stub.getTag(Empty.newBuilder().build());
                     while (getTagResponseIterator.hasNext()) {
                         GetTagResponse getTagResponse = getTagResponseIterator.next();
-                        System.out.println(getTagResponse.getTagId());
-                        System.out.println(getTagResponse.getTagName());
-                        System.out.println();
+                        System.out.println("tagId: " + getTagResponse.getTagId() + ", tagName: " + getTagResponse.getTagName());
                     }
+                    System.out.println();
                 } catch (StatusRuntimeException ignored) {
                 }
             } else if ("get-records".equals(input)) {
@@ -144,13 +166,13 @@ public class WikiClient {
                     getRecordResponseIterator = stub.getRecord(Empty.newBuilder().build());
                     while (getRecordResponseIterator.hasNext()) {
                         GetRecordResponse getRecordResponse = getRecordResponseIterator.next();
-                        System.out.println(getRecordResponse.getRecordId());
-                        System.out.println(getRecordResponse.getRecordTitle());
-                        System.out.println();
+                        System.out.println("recordId: " + getRecordResponse.getRecordId() + ", recordTitle: " + getRecordResponse.getRecordTitle());
                     }
+                    System.out.println();
                 } catch (StatusRuntimeException ignored) {
                 }
             } else if ("get-by-tag".equals(input)) {
+                System.out.println("Введите tagId");
                 int tagId = Integer.parseInt(scanner.nextLine());
                 GetRecordByTagRequest getRecordByTagRequest = GetRecordByTagRequest.newBuilder()
                         .setTagId(tagId)
@@ -161,10 +183,9 @@ public class WikiClient {
                     getRecordByTagResponseIterator = stub.getRecordByTag(getRecordByTagRequest);
                     while (getRecordByTagResponseIterator.hasNext()) {
                         GetRecordByTagResponse getRecordByTagResponse = getRecordByTagResponseIterator.next();
-                        System.out.println(getRecordByTagResponse.getRecordId());
-                        System.out.println(getRecordByTagResponse.getRecordTitle());
-                        System.out.println();
+                        System.out.println("recordId: " + getRecordByTagResponse.getRecordId() + ", recordTitle: " + getRecordByTagResponse.getRecordTitle());
                     }
+                    System.out.println();
                 } catch (StatusRuntimeException ignored) {
                 }
             } else {
