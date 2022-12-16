@@ -142,7 +142,7 @@ class RemoteInterfaceServer implements Interface {
     void checkLoseTwo() {
         boolean lost = true;
         for (int i = 0; i < 100; i++) {
-            if (serverData.getBoardB().get(i) == 'S') {
+            if (serverData.getBoardB().get(i) == 1) {
                 lost = false;
                 break;
             }
@@ -157,23 +157,20 @@ class RemoteInterfaceServer implements Interface {
         if (serverData.getTurn() == 2) {
             Integer symbol = serverData.getBoardA().get((i - 1) * serverData.getBoardSize() + j - 1);
             if (symbol == 1) {
-                serverData.getBoardA().set((i - 1) * serverData.getBoardSize() + j - 1, 1);
+                serverData.getBoardA().set((i - 1) * serverData.getBoardSize() + j - 1, 3);
                 checkLoseOne();
                 if (serverData.getTurn() == 4) return;
-            }
-            if (symbol == 0) {
+            } else if (symbol == 0) {
                 serverData.getBoardA().set((i - 1) * serverData.getBoardSize() + j - 1, 2);
                 serverData.setTurn(1);
             }
-        }
-        if (serverData.getTurn() == 1) {
+        } else if (serverData.getTurn() == 1) {
             Integer symbol = serverData.getBoardB().get((i - 1) * serverData.getBoardSize() + j - 1);
             if (symbol == 1) {
-                serverData.getBoardB().set((i - 1) * serverData.getBoardSize() + j - 1, 1);
+                serverData.getBoardB().set((i - 1) * serverData.getBoardSize() + j - 1, 3);
                 checkLoseTwo();
                 if (serverData.getTurn() == 3) return;
-            }
-            if (symbol == 0) {
+            } else if (symbol == 0) {
                 serverData.getBoardB().set((i - 1) * serverData.getBoardSize() + j - 1, 2);
                 serverData.setTurn(2);
             }

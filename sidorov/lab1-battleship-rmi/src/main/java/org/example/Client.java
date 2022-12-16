@@ -26,7 +26,7 @@ public class Client {
                 }
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -52,7 +52,7 @@ public class Client {
 
                     String usrInput = scanner.nextLine();
                     int x = Integer.parseInt(usrInput.split(" ")[0]);
-                    int y = Integer.parseInt(usrInput.split(" ")[0]);
+                    int y = Integer.parseInt(usrInput.split(" ")[1]);
 
                     try {
                         myInterface.makeMove(x, y);
@@ -62,7 +62,8 @@ public class Client {
 
                     try {
                         data.updateData(myInterface);
-                        data.print();
+                        // data.print();
+                        // System.out.println("turn: " + myInterface.getTurn());
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -74,6 +75,12 @@ public class Client {
                 if (data.getTurn() == 3 && data.getPlayerNum() == 2 || data.getTurn() == 4 && data.getPlayerNum() == 1) {
                     System.out.println("Вы проиграли");
                     break;
+                }
+
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -103,6 +110,7 @@ class ClientData {
 
     public void updateData(Interface myInterface) throws RemoteException {
         this.turn = myInterface.getTurn();
+        // System.out.println("turn: " + turn);
         this.boardA = myInterface.getBoard(playerNum);
         this.boardB = myInterface.getBoard(playerNum == 1 ? 2 : 1);
     }
@@ -127,13 +135,36 @@ class ClientData {
         for (int i = 0; i < getBoardSize(); i++) {
             StringBuilder s = new StringBuilder();
             for (int j = 0; j < getBoardSize(); j++) {
-                s.append(getBoardA().get(getBoardSize() * i + j)).append("  ");
+                Integer symbol = getBoardA().get(getBoardSize() * i + j);
+                if (symbol == 0) {
+                    s.append('.').append("  ");
+                }
+                if (symbol == 1) {
+                    s.append('+').append("  ");
+                }
+                if (symbol == 2) {
+                    s.append('-').append("  ");
+                }
+                if (symbol == 3) {
+                    s.append('X').append("  ");
+                }
             }
             s.append("   ");
             for (int j = 0; j < getBoardSize(); j++) {
                 Integer symbol = getBoardB().get(getBoardSize() * i + j);
                 if (symbol == 1) symbol = 0;
-                s.append(symbol).append("  ");
+                if (symbol == 0) {
+                    s.append('.').append("  ");
+                }
+                if (symbol == 1) {
+                    s.append('+').append("  ");
+                }
+                if (symbol == 2) {
+                    s.append('-').append("  ");
+                }
+                if (symbol == 3) {
+                    s.append('X').append("  ");
+                }
             }
             System.out.println(s);
         }
