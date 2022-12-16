@@ -1,0 +1,60 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package pizza;
+option java_multiple_files = true;
+option java_package = "pizza";
+option java_outer_classname = "PizzaProto";
+
+message Pizza {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  uint32 cost = 4;
+}
+
+message AllPizzasResponse {
+  repeated Pizza pizzas = 1;
+}
+
+message AddPizzaRequest {
+  string name = 1;
+  string description = 2;
+  uint32 cost = 3;
+}
+
+message PizzaId {
+  string id = 1;
+}
+
+message Status {
+  string status = 1;
+}
+
+message UpdateOrderRequest {
+  uint32 id = 1;
+  string status = 2;
+}
+
+message MakeOrderRequest {
+  string id = 1;
+  uint32 count = 2;
+}
+
+message MakeOrderResponse {
+  uint32 id = 1;
+  uint32 cost = 2;
+}
+
+message CheckOrderRequest {
+  uint32 id = 1;
+}
+
+service PizzaService {
+  rpc getAllPizzas(google.protobuf.Empty) returns (AllPizzasResponse);
+  rpc addNewPizza(AddPizzaRequest) returns (PizzaId);
+  rpc deletePizza(PizzaId) returns (Status);
+  rpc updateOrder(UpdateOrderRequest) returns (google.protobuf.Empty);
+
+  rpc orderPizza(MakeOrderRequest) returns (MakeOrderResponse);
+  rpc checkOrder(CheckOrderRequest) returns (Status);
+}
