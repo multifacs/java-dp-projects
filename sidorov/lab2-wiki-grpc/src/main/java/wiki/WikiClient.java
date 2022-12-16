@@ -7,6 +7,8 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -82,13 +84,15 @@ public class WikiClient {
             } else if ("attach-file".equals(input)) {
                 System.out.println("Введите recordId");
                 int recordId = Integer.parseInt(scanner.nextLine());
-                System.out.println("Введите fileName как путь");
+                System.out.println("Введите fileName");
                 String fileName = scanner.nextLine();
+
+                String filePath = "src/main/resources/" + fileName;
                 ByteString fileData = null;
 
                 try {
                     // file to bytes[]
-                    byte[] bytes = Files.readAllBytes(Paths.get(fileName));
+                    byte[] bytes = Files.readAllBytes(Paths.get(filePath));
                     fileData = ByteString.copyFrom(bytes);
 
                 } catch (IOException e) {
@@ -120,6 +124,8 @@ public class WikiClient {
                 System.out.println("Введите fileName как путь");
                 String fileName = scanner.nextLine();
 
+                String filePath = "src/main/resources/" + fileName + "_downloaded";
+
                 GetFileRequest getFileRequest = GetFileRequest.newBuilder()
                         .setRecordId(recordId)
                         .setFileName(fileName)
@@ -132,8 +138,10 @@ public class WikiClient {
                     byte[] bytes = getFileResponse.toByteArray();
 
                     // bytes[] to file
-                    Path path = Paths.get("/home/mkyong/test/phone2.png");
-                    Files.write(path, bytes);
+                    File myObj = new File(filePath);
+                    myObj.createNewFile();
+                    Path file = Paths.get(filePath);
+                    Files.write(file, bytes);
 
                     System.out.println("Done");
 

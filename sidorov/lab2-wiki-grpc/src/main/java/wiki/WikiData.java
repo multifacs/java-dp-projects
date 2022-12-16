@@ -63,15 +63,18 @@ public class WikiData {
 
     public File getFile(int recordId, String fileName) {
         for (Record record : records) {
-            if (record.getRecordId() == recordId) {
-                for (String name : record.getFileList()) {
-                    if (Objects.equals(name, fileName)) {
-                        for (File file : files) {
-                            if (Objects.equals(file.getFileName(), fileName)) {
-                                return file;
-                            }
-                        }
+            if (record.getRecordId() != recordId) {
+                continue;
+            }
+            for (String name : record.getFileList()) {
+                if (!Objects.equals(name, fileName)) {
+                    continue;
+                }
+                for (File file : files) {
+                    if (!Objects.equals(file.getFileName(), fileName)) {
+                        continue;
                     }
+                    return file;
                 }
             }
         }
