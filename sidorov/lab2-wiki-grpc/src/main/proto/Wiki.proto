@@ -1,0 +1,78 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package wiki;
+option java_multiple_files = true;
+option java_package = "wiki";
+option java_outer_classname = "WikiProto";
+
+message AddRecordRequest {
+  string record_title = 1;
+  string record_text = 2;
+}
+
+message AddRecordResponse {
+  uint32 record_id = 1;
+}
+
+message AttachTagRequest {
+  uint32 record_id = 1;
+  uint32 tag_id = 2;
+}
+
+message AttachFileRequest {
+  uint32 record_id = 1;
+  string file_name = 2;
+  bytes file_data = 3;
+}
+
+message AddTagRequest {
+  string tag_name = 1;
+}
+
+message AddTagResponse {
+  uint32 tag_id = 1;
+}
+
+message GetFileRequest {
+  uint32 record_id = 1;
+  string file_name = 2;
+}
+
+message GetFileResponse {
+  bytes file_data = 1;
+}
+
+message RemoveTagRequest {
+  uint32 tag_id = 1;
+}
+
+message GetTagResponse {
+  uint32 tag_id = 1;
+  string tag_name = 2;
+}
+
+message GetRecordResponse {
+  uint32 record_id = 1;
+  string record_title = 2;
+}
+
+message GetRecordByTagRequest {
+  uint32 tag_id = 1;
+}
+
+message GetRecordByTagResponse {
+  uint32 record_id = 1;
+  string record_title = 2;
+}
+
+service WikiService {
+  rpc addRecord(AddRecordRequest) returns (AddRecordResponse);
+  rpc attachTag(stream AttachTagRequest) returns (google.protobuf.Empty);
+  rpc attachFile(AttachFileRequest) returns (google.protobuf.Empty);
+  rpc addTag(AddTagRequest) returns (AddTagResponse);
+  rpc getFile(GetFileRequest) returns (GetFileResponse);
+  rpc removeTag(RemoveTagRequest) returns (google.protobuf.Empty);
+  rpc getTag(google.protobuf.Empty) returns (stream GetTagResponse);
+  rpc getRecord(google.protobuf.Empty) returns (stream GetRecordResponse);
+  rpc getRecordByTag(GetRecordByTagRequest) returns (stream GetRecordByTagResponse);
+}
