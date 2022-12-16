@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Votyakova2" />
+        <module name="lab2-hairsalon-ws" />
         <module name="practice4" />
         <module name="Fedoseyev2" />
       </profile>

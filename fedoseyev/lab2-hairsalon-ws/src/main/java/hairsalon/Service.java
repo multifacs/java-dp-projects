@@ -4,11 +4,13 @@ public class Service {
     private int id;
     private String name;
     private int duration;
+    private int cost;
 
-    public Service(int id, String name, int duration) {
+    public Service(int id, String name, int duration, int cost) {
         this.id = id;
         this.name = name;
         this.duration = duration;
+        this.cost = cost;
     }
 
     public int getId() {
@@ -33,5 +35,13 @@ public class Service {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

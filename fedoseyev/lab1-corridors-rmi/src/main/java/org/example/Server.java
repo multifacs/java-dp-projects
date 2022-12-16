@@ -14,9 +14,13 @@ public class Server
     public static void main(String[] args) throws RemoteException, AlreadyBoundException, InterruptedException {
 
         final RemoteGameServer server = new RemoteGameServer();
-        final Registry registry = LocateRegistry.createRegistry(1212);
+        final Registry registry = LocateRegistry.createRegistry(getPort());
         Remote stub = UnicastRemoteObject.exportObject(server, 0);
         registry.bind(UNIQUE_BINDING_NAME, stub);
-        Thread.sleep(Integer.MAX_VALUE);
+        Thread.sleep(Integer.MAX_VALUE - 123);
+    }
+
+    private static int getPort() {
+        return 1212;
     }
 }

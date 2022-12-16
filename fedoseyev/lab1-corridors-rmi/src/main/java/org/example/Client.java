@@ -20,34 +20,35 @@ public class Client {
     private static int boardSize = 0;
 
     private static void printBoard(List<Character> board) {
-        for (int i = 0; i < boardSize; i++) {
+        int i = 0;
+        while (i < boardSize) {
             StringBuilder s = new StringBuilder();
-            for (int j = 0; j < boardSize; j++) {
+            int j = 0;
+            while (j < boardSize) {
                 s.append(board.get(i * boardSize + j)).append("  ");
+                j++;
             }
             System.out.println(s);
+            i++;
         }
     }
 
     private static void startConnectThread(Game game) {
         Thread connectThread = new Thread(() -> {
-            while(true) {
+            do {
                 try {
                     board = game.getBoard();
                     currentTurn = game.getCurrentTurn();
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
 
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
-                if (currentTurn == 10 || currentTurn == 20 || currentTurn == 30) {
-                    break;
-                }
-            }
+            } while (currentTurn != 10 && currentTurn != 20 && currentTurn != 30);
         });
         connectThread.start();
     }
@@ -57,20 +58,16 @@ public class Client {
 
             BufferedReader bi = new BufferedReader(
                     new InputStreamReader(System.in));
-            int num[] = new int[2];
             String[] strNums;
 
             reader = new BufferedReader(new InputStreamReader(System.in));
 
-            while(true) {
+            do {
                 if (playerNumber == currentTurn) {
                     playerMove(game);
                 }
 
-                if (checkWin()) {
-                    break;
-                }
-            }
+            } while (!checkWin());
         });
         gameThread.start();
     }
@@ -123,10 +120,10 @@ public class Client {
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
 
-        final Registry registry = LocateRegistry.getRegistry(1212);
+        final Registry registry = LocateRegistry.getRegistry(getPort());
         Game game = (Game) registry.lookup(UNIQUE_BINDING_NAME);
         playerNumber = game.connectPlayer();
-        if (playerNumber == 0) throw new RuntimeException();
+        if (playerNumber == 0) return;
 
         System.out.println("Corridors game");
         System.out.println("Player num: " + playerNumber);
@@ -135,5 +132,9 @@ public class Client {
 
         startConnectThread(game);
         startGameThread(game);
+    }
+
+    private static int getPort() {
+        return 1212;
     }
 }

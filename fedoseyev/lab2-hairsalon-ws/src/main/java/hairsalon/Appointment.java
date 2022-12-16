@@ -3,12 +3,18 @@ package hairsalon;
 import java.time.LocalDateTime;
 
 public class Appointment {
+    private int id;
     private int service;
-    private LocalDateTime date;
+    private String date;
+    private int hour;
+    private int min;
 
-    public Appointment(int service, LocalDateTime date) {
+    public Appointment(int id, int service, String date, int hour, int min) {
+        this.id = id;
         this.service = service;
         this.date = date;
+        this.hour = hour;
+        this.min = min;
     }
 
     public int getService() {
@@ -19,11 +25,35 @@ public class Appointment {
         this.service = service;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
     }
 }
