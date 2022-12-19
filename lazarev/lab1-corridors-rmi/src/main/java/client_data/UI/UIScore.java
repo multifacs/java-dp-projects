@@ -1,4 +1,4 @@
-package main.java.client_data.UI;
+package client_data.UI;
 
 import java.awt.Color;
 import java.awt.Font;

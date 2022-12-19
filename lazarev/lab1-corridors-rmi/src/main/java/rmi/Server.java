@@ -1,7 +1,7 @@
-package main.java.rmi;
+package rmi;
 
-import main.java.server_data.Grid;
-import main.java.server_data.Point;
+import server_data.Grid;
+import server_data.Point;
 
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;

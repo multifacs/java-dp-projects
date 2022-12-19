@@ -1,4 +1,4 @@
-package main.java.server_data;
+package server_data;
 
 import java.io.Serializable;
 import java.util.ArrayList;

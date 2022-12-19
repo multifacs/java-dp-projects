@@ -1,8 +1,8 @@
-package main.java.rmi;
+package rmi;
 
-import main.java.client_data.PointListener;
-import main.java.client_data.ServerListener;
-import main.java.client_data.UI.UI;
+import client_data.PointListener;
+import client_data.ServerListener;
+import client_data.UI.UI;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

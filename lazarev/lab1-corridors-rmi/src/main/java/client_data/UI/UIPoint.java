@@ -1,6 +1,6 @@
-package main.java.client_data.UI;
+package client_data.UI;
 
-import main.java.client_data.PointListener;
+import client_data.PointListener;
 
 import java.awt.Graphics;
 import java.awt.event.MouseListener;

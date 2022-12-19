@@ -1,11 +1,10 @@
-package main.java.client_data;
+package client_data;
 
-
-import main.java.client_data.UI.UI;
-import main.java.client_data.UI.UILine;
-import main.java.client_data.UI.UIPoint;
-import main.java.client_data.UI.UIState;
-import main.java.rmi.Corridors;
+import client_data.UI.UI;
+import client_data.UI.UILine;
+import client_data.UI.UIPoint;
+import client_data.UI.UIState;
+import rmi.Corridors;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

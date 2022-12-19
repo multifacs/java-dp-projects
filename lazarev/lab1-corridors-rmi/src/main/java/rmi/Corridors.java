@@ -1,7 +1,6 @@
-package main.java.rmi;
+package rmi;
 
-
-import main.java.server_data.Point;
+import server_data.Point;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

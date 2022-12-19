@@ -1,6 +1,6 @@
-package main.java.client_data.UI;
+package client_data.UI;
 
-import main.java.rmi.Server;
+import rmi.Server;
 
 import java.util.ArrayList;
 import java.util.List;

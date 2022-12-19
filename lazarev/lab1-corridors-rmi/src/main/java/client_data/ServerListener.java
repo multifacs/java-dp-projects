@@ -1,11 +1,12 @@
-package main.java.client_data;
+package client_data;
 
-import main.java.client_data.UI.UI;
-import main.java.client_data.UI.UILine;
-import main.java.client_data.UI.UIPoint;
-import main.java.client_data.UI.UIState;
-import main.java.rmi.Corridors;
-import main.java.server_data.Point;
+import client_data.UI.UI;
+import client_data.UI.UILine;
+import client_data.UI.UIPoint;
+import client_data.UI.UIState;
+import rmi.Corridors;
+import server_data.Point;
+
 import java.rmi.RemoteException;
 import java.util.Vector;
 import java.util.logging.Level;
