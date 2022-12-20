@@ -1,0 +1,17 @@
+library\service\Library.class
+library\service\ObjectFactory.class
+library\service\LibraryService.class
+library\service\TakeBookResponse.class
+ws\service\Book.class
+library\service\AddCopyBook.class
+library\service\ReturnBookResponse.class
+library\service\package-info.class
+library\service\ReturnBook.class
+library\service\AddNewBookResponse.class
+library\service\GetAllBooksResponse.class
+ws\service\Library.class
+ws\service\LibraryService.class
+library\service\AddCopyBookResponse.class
+library\service\TakeBook.class
+library\service\AddNewBook.class
+library\service\GetAllBooks.class
