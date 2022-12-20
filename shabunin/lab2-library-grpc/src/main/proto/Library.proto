@@ -1,0 +1,48 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package library;
+option java_multiple_files = true;
+option java_package = "library";
+option java_outer_classname = "LibraryProto";
+
+message GetBooksResponse {
+  string isbn = 1;
+  string authors = 2;
+  uint32 year = 3;
+  string publisher = 4;
+  string title = 5;
+  uint32 count = 6;
+}
+
+message AddBookRequest {
+  string isbn = 1;
+  string authors = 2;
+  uint32 year = 3;
+  string publisher = 4;
+  string title = 5;
+}
+
+message AddCopyRequest {
+  string isbn = 1;
+  uint32 num = 2;
+}
+
+message TakeBookRequest {
+  string isbn = 1;
+}
+
+message TakeBookResponse {
+  string status = 1;
+}
+
+message ReturnBookRequest {
+  string isbn = 1;
+}
+
+service Library {
+  rpc getBooks(google.protobuf.Empty) returns (stream GetBooksResponse);
+  rpc addBook(AddBookRequest) returns (google.protobuf.Empty);
+  rpc addCopy(AddCopyRequest) returns (google.protobuf.Empty);
+  rpc takeBook(TakeBookRequest) returns (TakeBookResponse);
+  rpc returnBook(ReturnBookRequest) returns (google.protobuf.Empty);
+}
