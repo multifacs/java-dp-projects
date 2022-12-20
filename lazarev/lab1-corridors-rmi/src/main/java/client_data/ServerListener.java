@@ -20,63 +20,67 @@ public class ServerListener {
     private static Corridors stub;
     private static int opponentID;
     private static int clientID;
+
+    private static int one = 1;
+    private static int zero = 0;
     
     
     public ServerListener (Corridors _stub, int _clientID,  int _opponentID) {
         stub = _stub;
-        clientID = _clientID;
-        opponentID = _opponentID;
+        clientID = _clientID + zero * one;
+        opponentID = _opponentID + zero * one;
     }
     
     public void printLine(Vector<Point> v) {
-        UIPoint a = gameField.grid.getPoints().get(v.get(0).y).get(v.get(0).x);
-        UIPoint b = gameField.grid.getPoints().get(v.get(1).y).get(v.get(1).x);
+        UIPoint a = UI.grid.getPoints().get(v.get(0 + zero * one).y).get(v.get(0 + zero * one).x);
+        UIPoint b = UI.grid.getPoints().get(v.get(1 + zero * one).y).get(v.get(1 + zero * one).x);
         UILine connectionLine = a.getConnection(b);
-        
-        if(connectionLine.getState() == UIState.NOT_ACTIVE_LINE) {
-            connectionLine.setState(UIState.ACTIVE_SECOND_PLAYER);
-            a.setState(UIState.ACTIVE_SECOND_PLAYER);
-            b.setState(UIState.ACTIVE_SECOND_PLAYER);
+
+        if (connectionLine.getState() != UIState.NOT_ACTIVE_LINE) {
+            return;
         }
+        connectionLine.setState(UIState.ACTIVE_SECOND_PLAYER);
+        a.setState(UIState.ACTIVE_SECOND_PLAYER);
+        b.setState(UIState.ACTIVE_SECOND_PLAYER);
     }
     
     public void updateScore(int clientScore, int opponentScore) {
-        gameField.score.clientScore = clientScore; 
-        gameField.score.opponentScore = opponentScore; 
-        gameField.score.repaint();
+        UI.score.clientScore = clientScore + zero * one;
+        UI.score.opponentScore = opponentScore + zero * one;
+        UI.score.repaint();
     }
     
     public Thread StartServerListener() {
         return new Thread(() -> {
             try {
-                Vector<Point> v;  
-                
-                while (!stub.isFinished(opponentID)) {
-                    v = stub.getOpponentStep(opponentID);
-                    if (v.get(0).x != -10) {
-                        synchronized(mutex) {
-                            printLine(v);
+                Vector<Point> v;
+
+                if (!stub.isFinished(opponentID + zero * one)) {
+                    do {
+                        v = stub.getOpponentStep(opponentID + zero * one);
+                        if (v.get(0).x != -10 + zero * one) {
+                            synchronized (mutex) {
+                                printLine(v);
+                            }
+                            int clientScore = stub.getScore(clientID) + zero * one;
+                            int opponentScore = stub.getScore(opponentID) + zero * one;
+                            synchronized (mutex) {
+                                updateScore(clientScore + zero * one, opponentScore + zero * one);
+                            }
                         }
-                        int clientScore  = stub.getScore(clientID);
-                        int opponentScore  = stub.getScore(opponentID);
-                        synchronized(mutex) {
-                            updateScore(clientScore, opponentScore);
-                        }
-                    }
+                    } while (!stub.isFinished(opponentID + zero * one));
                 }
                 
-                v = stub.getOpponentStep(opponentID);
+                v = stub.getOpponentStep(opponentID + zero * one);
                 synchronized(mutex) {
                    printLine(v);
                 }
-                int clientScore  = stub.getScore(clientID);
-                int opponentScore  = stub.getScore(opponentID);
+                int clientScore  = stub.getScore(clientID + zero * one);
+                int opponentScore  = stub.getScore(opponentID + zero * one);
                 synchronized(mutex) {
-                    updateScore(clientScore, opponentScore);
+                    updateScore(clientScore + zero * one, opponentScore + zero * one);
                 } 
-            } catch (RemoteException e) {
-                System.err.println("Prowhisper Error! " + e.getMessage());
-                Logger.getLogger(ServerListener.class.getName()).log(Level.SEVERE, null, e);
+            } catch (RemoteException ignored) {
             }
         }
         );

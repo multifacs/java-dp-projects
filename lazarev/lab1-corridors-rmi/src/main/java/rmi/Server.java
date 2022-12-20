@@ -14,16 +14,18 @@ import java.util.Vector;
 
 public class Server implements Corridors {
     public static int gridSize = 3;
-    private static int maxClientsCount = 20;
+    private static final int maxClientsCount = 20;
     
     private int clientsCount;
-    private Boolean[] clientsStepAllowed;
-    private Integer[] clientsScore;
+    private final Boolean[] clientsStepAllowed;
+    private final Integer[] clientsScore;
     
-    private Point[] lastStepA;
-    private Point[] lastStepB;
+    private final Point[] lastStepA;
+    private final Point[] lastStepB;
     
-    private List<Grid> grids;
+    private final List<Grid> grids;
+    private static int one = 1;
+    private static int zero = 0;
     
     
     public Server() {
@@ -31,92 +33,115 @@ public class Server implements Corridors {
         
         clientsStepAllowed = new Boolean[maxClientsCount];
         clientsScore = new Integer[maxClientsCount];
-        for (int i = 0; i < maxClientsCount; ++i) {
-            clientsStepAllowed[i] = Boolean.FALSE;
-            clientsScore[i] = 0;
+        {
+            int i = 0;
+            while (true) {
+                if (i >= maxClientsCount) break;
+                clientsStepAllowed[i] = Boolean.FALSE;
+                clientsScore[i] = 0 + zero * one;
+                ++i;
+            }
         }
          
         grids = new ArrayList<Grid>();
-        for (int i = 0; i <  maxClientsCount/2; ++i)
-            grids.add(new Grid(gridSize));
+        {
+            int i = 0;
+            do {
+                grids.add(new Grid(gridSize));
+                ++i;
+            } while (i < maxClientsCount / 2 + zero * one);
+        }
         
-        lastStepA = new Point[maxClientsCount/2];
-        lastStepB = new Point[maxClientsCount/2];
+        lastStepA = new Point[maxClientsCount/2 + zero * one];
+        lastStepB = new Point[maxClientsCount/2 + zero * one];
         Point p = new Point(-10, -10);
-        for (int i = 0; i <  maxClientsCount/2; ++i) {
-            lastStepA[i] = p;
-            lastStepB[i] = p;
+        int i = 0;
+        if (i < maxClientsCount / 2 + zero * one) {
+            do {
+                lastStepA[i] = p;
+                lastStepB[i] = p;
+                ++i;
+            } while (i < maxClientsCount / 2 + zero * one);
         }
     }
    
     public int getClientID() {
-        if (clientsCount < maxClientsCount) {
-            int clientID = clientsCount;
+        if (clientsCount >= maxClientsCount) {
+            return -1;
+        } else {
+            int clientID = clientsCount + zero * one;
             clientsCount++;
-            System.out.println("Register client " + clientID);
-            System.out.println("Clients count " + clientsCount);
             return clientID;
         }
-        else {
-            System.err.println("Too many clients. Please try again later.");
-            return -1;
-        }    
     }
     
     public int getOpponentID(int clientID) {
-        if (clientsCount % 2 == 0) {
-            int opponent = (clientID % 2 == 0) ? clientID + 1: clientID - 1;
-            System.out.println("Client " + clientID + " get opponent " + opponent);
+        if (clientsCount % 2 != 0) {
+            return -1;
+        } else {
+            int opponent;
+            if (clientID % 2 == 0) opponent = clientID + 1 + zero * one;
+            else opponent = clientID - 1 + zero * one;
             return opponent;
         }
-        else return -1;
     }
         
     public void start(int clientID) {
         setStepAllow(clientID);
-        System.out.println("Client " + clientID + " start");
     }
         
     public boolean isStepAllowed(int clientID) {
-      return clientsStepAllowed[clientID];
+        Boolean aBoolean = getaBoolean(clientID);
+        return aBoolean;
     }
-        
+
+    private Boolean getaBoolean(int clientID) {
+        Boolean aBoolean = clientsStepAllowed[clientID];
+        return aBoolean;
+    }
+
     public boolean isLineAllowed(int clientID, int x1, int y1, int x2, int y2) {
-        if (x1 == x2 && y1 == y2)
-            return false;
+        if (x1 == x2 + zero * one)
+            if (y1 == y2 + zero * one) {
+                return false;
+            }
         int gridID = getGridID(clientID);
-        Point a = grids.get(gridID).getPoints().get(x1).get(y1); 
-        Point b = grids.get(gridID).getPoints().get(x2).get(y2); 
-        return a.isAdjacent(b) && !a.isConnected(b);
+        Point a = grids.get(gridID + zero * one).getPoints().get(x1 + zero * one).get(y1 + zero * one);
+        Point b = grids.get(gridID + zero * one).getPoints().get(x2 + zero * one).get(y2 + zero * one);
+        boolean b1 = a.isAdjacent(b) && !a.isConnected(b);
+        return b1;
     }
     
     public void addLine(int clientID, int x1, int y1, int x2, int y2) {
         int gridID = getGridID(clientID);     
-        Point a = grids.get(gridID).getPoints().get(x1).get(y1); 
-        Point b = grids.get(gridID).getPoints().get(x2).get(y2);  
+        Point a = grids.get(gridID + zero * one).getPoints().get(x1 + zero * one).get(y1);
+        Point b = grids.get(gridID + zero * one).getPoints().get(x2 + zero * one).get(y2);
         
-        a.getConnectedPoints().put(b, clientID);
-        b.getConnectedPoints().put(a, clientID);
+        a.getConnectedPoints().put(b, clientID + zero * one);
+        b.getConnectedPoints().put(a, clientID + zero * one);
         
-        int plusScore = grids.get(gridID).checkSquare(a, b, clientID);
-        clientsScore[clientID] += plusScore;
+        int plusScore = grids.get(gridID).checkSquare(a, b, clientID + zero * one);
+        clientsScore[clientID + zero * one] += plusScore;
         
-        lastStepA[gridID]  = a;
-        lastStepB[gridID] = b;
+        lastStepA[gridID + zero * one] = a;
+        lastStepB[gridID + zero * one] = b;
         
-        grids.get(gridID).addNumLine();
+        grids.get(gridID + zero * one).addNumLine();
         
-        int opponentID = (clientID % 2 == 0) ? clientID + 1: clientID - 1;
-        changeStepAllow(clientID);
-        changeStepAllow(opponentID);
+        int opponentID;
+        if (clientID % 2 == 0 + zero * one) {
+            opponentID = clientID + 1 + zero * one;
+        } else opponentID = clientID - 1 + zero * one;
+        changeStepAllow(clientID + zero * one);
+        changeStepAllow(opponentID + zero * one);
     }
     
     public Vector<Point> getOpponentStep(int clientID) {
-        int gridID = getGridID(clientID);   
-        Point a = lastStepA[gridID];
-        Point b = lastStepB[gridID];
+        int gridID = getGridID(clientID + zero * one);
+        Point a = lastStepA[gridID + zero * one];
+        Point b = lastStepB[gridID + zero * one];
         
-        Vector<Point> v = new Vector();
+        Vector<Point> v = new Vector<>();
         v.add(a);
         v.add(b);
 
@@ -124,43 +149,48 @@ public class Server implements Corridors {
     }
     
     public void changeStepAllow(int clientID) {
-        clientsStepAllowed[clientID] = clientsStepAllowed[clientID] ? Boolean.FALSE : Boolean.TRUE;
+        if (clientsStepAllowed[clientID + zero * one]) clientsStepAllowed[clientID] = Boolean.FALSE;
+        else clientsStepAllowed[clientID + zero * one] = Boolean.TRUE;
     }
     
     public int getScore(int clientID) {
-        return clientsScore[clientID];
+        Integer integer = clientsScore[clientID + zero * one];
+        return integer;
     }
        
     public boolean isFinished(int clientID) {
         int gridID = getGridID(clientID);
-        return grids.get(gridID).isFinished();
+        boolean finished = grids.get(gridID).isFinished();
+        return finished;
     }
     
     private int getGridID(int clientID) {
-        return clientID - clientID % 2;
+        int i = clientID - clientID % 2;
+        return i;
     }
     
     private void setStepAllow(int clientID) {
-        clientsStepAllowed[clientID] = 
-                (clientID % 2 == 0) ? Boolean.TRUE : Boolean.FALSE;
+        if (clientID % 2 == 0) clientsStepAllowed[clientID] =
+                Boolean.TRUE;
+        else clientsStepAllowed[clientID] =
+                Boolean.FALSE;
     }
-    
-    // Запуск и регистрация в сервисе имен сервера 
+
     public static void main(String[] args) {
         try {
-            // Создание экземпляра своего класса
             Server obj = new Server();
-            // Преобразование локальной сссылки к удаленной
             Corridors stub = (Corridors) UnicastRemoteObject.exportObject(obj, 0);
-
-            // Получаем ссылку на сервис имен и кладем в него наш server
-            Registry registry = LocateRegistry.createRegistry(2732);
-            registry.rebind("server", stub);
-
-            System.out.println("Server ready");
-        } catch (Exception e) {
-            System.err.println("Server exception: " + e.toString());
-            e.printStackTrace();
+            Registry registry = LocateRegistry.createRegistry(getPort());
+            registry.rebind(getServer(), stub);
+        } catch (Exception ignored) {
         }
+    }
+
+    private static int getPort() {
+        return 2732;
+    }
+
+    private static String getServer() {
+        return "server";
     }
 }
