@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="lab1-gomoku-rmi" />
-        <module name="Gomoku" />
-        <module name="Olenin" />
+        <module name="Me2" />
+        <module name="practice5" />
+        <module name="gRPC-Hello" />
+        <module name="Olenin2" />
       </profile>
     </annotationProcessing>
   </component>

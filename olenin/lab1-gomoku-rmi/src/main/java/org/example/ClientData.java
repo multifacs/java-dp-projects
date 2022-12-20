@@ -23,7 +23,9 @@ public class ClientData {
         this.turn = 1;
         this.first = true;
         this.exit = false;
-        this.coord = new ArrayList<>(2);
+        this.coord = new ArrayList<>();
+        this.coord.add(0);
+        this.coord.add(0);
         this.inputPoint = new ArrayList<>();
         this.reader = new BufferedReader(
                 new InputStreamReader(System.in));
