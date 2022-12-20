@@ -1,0 +1,78 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package encyclopedia;
+option java_multiple_files = true;
+option java_package = "encyclopedia";
+option java_outer_classname = "EncyclopediaProto";
+
+message NewArticleRequest {
+  string article_title = 1;
+  string article_text = 2;
+}
+
+message NewArticleResponse {
+  uint32 article_id = 1;
+}
+
+message AddTagRequest {
+  uint32 article_id = 1;
+  uint32 tag_id = 2;
+}
+
+message AddFileRequest {
+  uint32 article_id = 1;
+  string file_name = 2;
+  bytes file_data = 3;
+}
+
+message NewTagRequest {
+  string tag_name = 1;
+}
+
+message NewTagResponse {
+  uint32 tag_id = 1;
+}
+
+message GetFileRequest {
+  uint32 article_id = 1;
+  string file_name = 2;
+}
+
+message GetFileResponse {
+  bytes file_data = 1;
+}
+
+message RemoveTagRequest {
+  uint32 tag_id = 1;
+}
+
+message GetTagResponse {
+  uint32 tag_id = 1;
+  string tag_name = 2;
+}
+
+message GetArticleResponse {
+  uint32 article_id = 1;
+  string article_title = 2;
+}
+
+message GetArticleByTagRequest {
+  uint32 tag_id = 1;
+}
+
+message GetArticleByTagResponse {
+  uint32 article_id = 1;
+  string article_title = 2;
+}
+
+service EncyclopediaService {
+  rpc newArticle(NewArticleRequest) returns (NewArticleResponse);
+  rpc addTag(stream AddTagRequest) returns (google.protobuf.Empty);
+  rpc addFile(AddFileRequest) returns (google.protobuf.Empty);
+  rpc newTag(NewTagRequest) returns (NewTagResponse);
+  rpc getFile(GetFileRequest) returns (GetFileResponse);
+  rpc removeTag(RemoveTagRequest) returns (google.protobuf.Empty);
+  rpc getTag(google.protobuf.Empty) returns (stream GetTagResponse);
+  rpc getArticle(google.protobuf.Empty) returns (stream GetArticleResponse);
+  rpc getArticleByTag(GetArticleByTagRequest) returns (stream GetArticleByTagResponse);
+}
