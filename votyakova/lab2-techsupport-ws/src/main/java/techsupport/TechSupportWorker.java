@@ -2,43 +2,46 @@ package techsupport;
 
 import techsupport.service.TechSupportServer;
 import techsupport.service.TechSupportServerService;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class TechSupportWorker {
+    static TechSupportServerService techSupportServerService;
+    static TechSupportServer techSupportServerProxy;
     public static void main(String[] args) {
-        TechSupportServerService techSupportServerService = new TechSupportServerService();
-        TechSupportServer techSupportServerProxy = techSupportServerService.getTechSupportServerPort();
+        techSupportServerService = new TechSupportServerService();
+        techSupportServerProxy = techSupportServerService.getTechSupportServerPort();
 
         Scanner scanner = new Scanner(System.in);
         boolean work = true;
+
+        List<String> commands = List.of("get", "start", "finish", "exit");
+
         while (work) {
-            System.out.println("get, start, finish, exit");
+            System.out.println(String.join(", ", commands));
             String input = scanner.nextLine();
 
             switch (input) {
-                case ("get"):
+                case ("get") -> {
                     String s = techSupportServerProxy.getRequests();
                     System.out.println(s);
-                    break;
-
-                case ("start"):
+                }
+                case ("start") -> {
                     int id;
-                    System.out.println("ID");
+                    String req = "Enter id";
+                    System.out.println(req);
                     id = Integer.parseInt(scanner.nextLine());
                     techSupportServerProxy.requestStart(id);
-                    break;
-
-                case ("finish"):
-                    System.out.println("Enter id:");
-                    id = Integer.parseInt(scanner.nextLine());
+                } case ("finish") -> {
+                    String req = "Enter id";
+                    System.out.println(req);
+                    int id = Integer.parseInt(scanner.nextLine());
                     techSupportServerProxy.requestFinish(id);
-                    break;
-                case ("exit"):
-                    work = false;
-                    break;
-
-                default:
-                    break;
+                }
+                case ("exit") -> work = false;
+                default -> {
+                }
             }
         }
     }

@@ -17,11 +17,16 @@ public class TechSupportServer {
     public String getRequests() {
         StringBuilder s = new StringBuilder();
         for (Request request : requestList) {
-            s.append("id: ").append(request.id).append(", ");
-            s.append("status: ").append(request.status).append(", ");
-            s.append("description: ").append(request.desc).append(", ");
-            s.append("name: ").append(request.client).append(", ");
-            s.append("email: ").append(request.email).append("\n");
+            String idtext = "id: " + request.id + "\n";
+            String statustext = "status: " + request.status + "\n";
+            String descriptiontext = "description: " + request.desc + "\n";
+            String nametext = "name: " + request.client + "\n";
+            String email = "email: " + request.email + "\n\n";
+            s.append(idtext);
+            s.append(statustext);
+            s.append(descriptiontext);
+            s.append(nametext);
+            s.append(email);
         }
         return s.toString();
     }
