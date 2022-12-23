@@ -1,0 +1,62 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package grpc.ex1;
+option java_multiple_files = true;
+option java_package = "carrental";
+option java_outer_classname = "CarRentalProto";
+
+message CarStruct {
+  uint32 id = 1;
+  string model = 2;
+  uint32 km = 3;
+  string state = 4;
+  uint32 cost = 5;
+}
+
+message GetCarsResponse {
+  repeated CarStruct car = 1;
+}
+
+message GetCarsByModelRequest {
+  string model = 1;
+}
+
+message AddCarRequest {
+  string model = 1;
+  uint32 km = 2;
+  string state = 3;
+  uint32 cost = 4;
+}
+
+message AddCarResponse {
+  uint32 id = 1;
+}
+
+message ChangeCarRequest {
+  uint32 id = 1;
+  uint32 km = 2;
+  string state = 3;
+}
+
+message RentCarRequest {
+  uint32 id = 1;
+  uint32 duration = 2;
+}
+
+message RentCarResponse {
+  uint32 cost = 1;
+}
+
+message ReturnCarRequest {
+  uint32 id = 1;
+}
+
+service CarRental {
+  rpc getCars(google.protobuf.Empty) returns (GetCarsResponse);
+  rpc getCarsByModel(GetCarsByModelRequest) returns (GetCarsResponse);
+  rpc addCar(AddCarRequest) returns (AddCarResponse);
+  rpc changeCar(ChangeCarRequest) returns (google.protobuf.Empty);
+
+  rpc rentCar(RentCarRequest) returns (RentCarResponse);
+  rpc returnCar(ReturnCarRequest) returns (google.protobuf.Empty);
+}
