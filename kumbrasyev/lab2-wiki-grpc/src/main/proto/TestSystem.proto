@@ -1,0 +1,67 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package testsystem;
+option java_multiple_files = true;
+option java_package = "testsystem";
+option java_outer_classname = "TestSystemProto";
+
+message NameStruct {
+  string name = 1;
+}
+
+message IdStruct {
+  uint32 id = 1;
+}
+
+message QuestionStruct {
+  uint32 test_id = 1;
+  string text = 2;
+}
+
+message AnswerStruct {
+  uint32 test_id = 1;
+  uint32 question_id = 2;
+
+  repeated string answers = 3;
+  uint32 correct = 4;
+
+  uint32 plus_correct = 5;
+  uint32 minus_incorrect = 6;
+}
+
+message TestStruct {
+  uint32 id = 1;
+  string name = 2;
+}
+
+message GetTestsResponse {
+  repeated TestStruct tests = 1;
+}
+
+message GetNextQuestionResponse {
+  string text = 1;
+  AnswerStruct answers = 2;
+}
+
+message AnswerQuestionRequest {
+  uint32 test_id = 1;
+  uint32 question_id = 2;
+  uint32 answer = 3;
+}
+
+message GetNext {
+  uint32 test_id = 1;
+  uint32 question_id = 2;
+}
+
+service TestSystem {
+  rpc addTest(NameStruct) returns (IdStruct);
+  rpc addQuestion(QuestionStruct) returns (IdStruct);
+  rpc addAnswers(AnswerStruct) returns (google.protobuf.Empty);
+
+  rpc getTests(google.protobuf.Empty) returns (GetTestsResponse);
+  rpc startTest(IdStruct) returns (google.protobuf.Empty);
+  rpc getNextQuestion(GetNext) returns (GetNextQuestionResponse);
+  rpc answerQuestion(AnswerQuestionRequest) returns (IdStruct);
+  rpc endTest(IdStruct) returns (IdStruct);
+}
