@@ -1,0 +1,67 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package wiki;
+option java_multiple_files = true;
+option java_package = "wiki";
+option java_outer_classname = "WikiProto";
+
+message RecordSimpleStruct {
+  uint32 id = 1;
+  string name = 2;
+}
+
+message GetRecordResponse {
+  repeated RecordSimpleStruct records = 1;
+}
+
+message TagId {
+  string tag = 1;
+}
+
+message FileData {
+  bytes file = 1;
+}
+
+message GetFileRequest {
+  uint32 id = 1;
+  string file_name = 2;
+}
+
+message GetTagResponse {
+  repeated TagId tags = 1;
+}
+
+message AddRecordRequest {
+  string name = 1;
+  string text = 2;
+}
+
+message RecordId {
+  uint32 id = 1;
+}
+
+message AttachTagRequest {
+  uint32 id = 1;
+  repeated TagId tags = 2;
+}
+
+message AttachFileRequest {
+  uint32 id = 1;
+  string file_name = 2;
+  bytes file = 3;
+}
+
+service WikiService {
+  rpc getRecords(google.protobuf.Empty) returns (GetRecordResponse);
+  rpc getRecordsByTag(TagId) returns (GetRecordResponse);
+
+  rpc getFile(GetFileRequest) returns (FileData);
+  rpc getTags(google.protobuf.Empty) returns (GetTagResponse);
+
+  rpc addRecord(AddRecordRequest) returns (RecordId);
+  rpc attachTag(AttachTagRequest) returns (google.protobuf.Empty);
+  rpc attachFile(AttachFileRequest) returns (google.protobuf.Empty);
+  rpc addTag(TagId) returns (google.protobuf.Empty);
+
+  rpc removeTag(TagId) returns (google.protobuf.Empty);
+}
